@@ -9,7 +9,7 @@ const Overview = () => {
     <div id="about-me" className=" space-y-8 pt-8 min-h-screen ">
       <h2 className="text-4xl font-semibold">About Me</h2>
       <h4 className="text-2xl text-justify">
-        I'm Dan, a 19-year-old third-semester Computer Engineering student at ITB.
+        I'm DAN, a 19-year-old third-semester Computer Engineering student at ITB.
       </h4>
       <p className="mt-2 text-justify">
         As a diligent, hardworking, and curious individual, I am passionate

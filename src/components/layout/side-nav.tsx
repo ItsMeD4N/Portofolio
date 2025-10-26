@@ -1,58 +1,70 @@
-'use client'
+"use client";
 
-import { cn, createSlug } from '@/lib/utils'
-import { projectData } from '@/data/project'
-import { User, Briefcase, GitBranch, Rss, Menu, X, ChevronDown } from 'lucide-react'
-import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import { cn, createSlug } from "@/lib/utils";
+import { projectData } from "@/data/project";
+import {
+  User,
+  Briefcase,
+  GitBranch,
+  Rss,
+  Menu,
+  X,
+  ChevronDown,
+} from "lucide-react";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 
 const navLinks = [
-  { href: '#about-me', label: 'Overview', icon: <User size={18} /> },
-  { href: '#experiences', label: 'Experiences', icon: <Briefcase size={18} /> },
-  { href: '#projects', label: 'Projects', icon: <GitBranch size={18} /> },
-  { href: '#blogs', label: 'Blogs', icon: <Rss size={18} /> },
-]
+  { href: "#about-me", label: "Overview", icon: <User size={18} /> },
+  { href: "#experiences", label: "Experiences", icon: <Briefcase size={18} /> },
+  /*   { href: "#projects", label: "Projects", icon: <GitBranch size={18} /> },
+  { href: "#blogs", label: "Blogs", icon: <Rss size={18} /> }, */
+];
 
 const SideNav = ({ children }: { children: React.ReactNode }) => {
-  const [activeSection, setActiveSection] = useState('#about-me')
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const [isProjectsOpen, setIsProjectsOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState("#about-me");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isProjectsOpen, setIsProjectsOpen] = useState(false);
 
   useEffect(() => {
     const sectionsToObserve = [
-      ...navLinks.map(link => link.href),
-      ...projectData.map(p => `#${createSlug(p.subtitle)}`)
-    ]
+      ...navLinks.map((link) => link.href),
+      ...projectData.map((p) => `#${createSlug(p.subtitle)}`),
+    ];
 
     const observer = new IntersectionObserver(
       (entries) => {
-        const intersectingEntry = entries.find((entry) => entry.isIntersecting)
+        const intersectingEntry = entries.find((entry) => entry.isIntersecting);
         if (intersectingEntry) {
-          const newActiveSection = `#${intersectingEntry.target.id}`
-          setActiveSection(newActiveSection)
+          const newActiveSection = `#${intersectingEntry.target.id}`;
+          setActiveSection(newActiveSection);
 
-          if (projectData.some(p => `#${createSlug(p.subtitle)}` === newActiveSection)) {
-            setIsProjectsOpen(true)
+          if (
+            projectData.some(
+              (p) => `#${createSlug(p.subtitle)}` === newActiveSection
+            )
+          ) {
+            setIsProjectsOpen(true);
           }
         }
       },
-      { rootMargin: '-40% 0px -60% 0px' }
-    )
+      { rootMargin: "-40% 0px -60% 0px" }
+    );
 
     sectionsToObserve.forEach((selector) => {
-      const element = document.querySelector(selector)
-      if (element) observer.observe(element)
-    })
+      const element = document.querySelector(selector);
+      if (element) observer.observe(element);
+    });
 
     return () => {
       sectionsToObserve.forEach((selector) => {
-        const element = document.querySelector(selector)
-        if (element) observer.unobserve(element)
-      })
-    }
-  }, [])
+        const element = document.querySelector(selector);
+        if (element) observer.unobserve(element);
+      });
+    };
+  }, []);
 
-  const closeSidebar = () => setIsSidebarOpen(false)
+  const closeSidebar = () => setIsSidebarOpen(false);
 
   return (
     <>
@@ -83,10 +95,12 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           )}
         >
           {navLinks.map((link) => {
-            if (link.label === 'Projects') {
+            if (link.label === "Projects") {
               const isProjectsSectionActive =
-                activeSection.startsWith('#projects') ||
-                projectData.some(p => `#${createSlug(p.subtitle)}` === activeSection)
+                activeSection.startsWith("#projects") ||
+                projectData.some(
+                  (p) => `#${createSlug(p.subtitle)}` === activeSection
+                );
 
               return (
                 <li key={link.href} className="flex flex-col">
@@ -113,7 +127,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                   </button>
 
                   {/* Collapsible list of projects */}
-                  <div
+                  {/*                   <div
                     className={cn(
                       "overflow-hidden transition-[max-height] duration-300 ease-in-out",
                       isProjectsOpen ? "max-h-96" : "max-h-0"
@@ -137,9 +151,9 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                         )
                       })}
                     </ul>
-                  </div>
+                  </div> */}
                 </li>
-              )
+              );
             }
 
             return (
@@ -153,17 +167,17 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                   {link.label}
                 </NavLink>
               </li>
-            )
+            );
           })}
         </ul>
 
         <div>{children}</div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default SideNav
+export default SideNav;
 
 // NavLink component
 const NavLink = ({
@@ -174,12 +188,12 @@ const NavLink = ({
   onLinkClick,
   isSubLink = false,
 }: {
-  href: string
-  children: React.ReactNode
-  isActive: boolean
-  icon?: React.ReactNode
-  onLinkClick?: () => void
-  isSubLink?: boolean
+  href: string;
+  children: React.ReactNode;
+  isActive: boolean;
+  icon?: React.ReactNode;
+  onLinkClick?: () => void;
+  isSubLink?: boolean;
 }) => {
   return (
     <Link
@@ -188,11 +202,11 @@ const NavLink = ({
       className={cn(
         isSubLink
           ? // 👉 For project sub-links: bold + underline only when active
-          isActive
+            isActive
             ? "text-sm font-semibold underline"
             : "text-sm"
           : // 👉 For normal nav links
-          "flex items-center gap-3 px-4 py-2 transition-colors duration-200 rounded-full text-sm truncate",
+            "flex items-center gap-3 px-4 py-2 transition-colors duration-200 rounded-full text-sm truncate",
         isActive && !isSubLink && "bg-primary text-secondary font-semibold",
         !isSubLink && !isActive && "hover:text-primary"
       )}
@@ -200,6 +214,5 @@ const NavLink = ({
       {icon}
       <span className={isSubLink ? "truncate" : "truncate"}>{children}</span>
     </Link>
-  )
-}
-
+  );
+};

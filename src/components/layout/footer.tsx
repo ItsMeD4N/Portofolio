@@ -8,7 +8,7 @@ export default function Footer() {
     <footer className="absolute w-full bottom-6 px-6 ">
       <Separator className="mb-4 bg-[#F0F0F0]" />
       <div className="flex items-center justify-between text-lg max-w-6xl mx-auto text-[#F0F0F0]">
-        <p>© {new Date().getFullYear()} ItsMeD4n</p>
+        <p>© {new Date().getFullYear()} ItsMeDAN</p>
         <div className="flex gap-4">
           <a
             href="https://github.com/itsmed4n"

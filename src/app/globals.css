@@ -1,0 +1,170 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-vertical {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+  --animate-line-shadow: line-shadow 15s linear infinite;
+  @keyframes line-shadow {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 100% -100%;
+    }
+  }
+}
+
+:root {
+  --radius: 0.625rem;
+
+  /* Latar Belakang & Teks */
+  --background: #f0f0f0; /* Abu-abu terang dari partikel */
+  --foreground: #4a2c5a; /* Ungu gelap dari gradien untuk teks */
+  --card: #ffffff; /* Putih bersih untuk kartu */
+  --card-foreground: #4a2c5a;
+  --popover: #ffffff;
+  --popover-foreground: #4a2c5a;
+
+  /* Elemen Utama (Primary) */
+  --primary: #835693; /* Ungu cerah dari gradien */
+  --primary-foreground: #ffffff; /* Teks putih kontras */
+
+  /* Elemen Sekunder & Aksen */
+  --secondary: #e0e0e0;
+  --secondary-foreground: #5d3a6d;
+  --accent: #e0e0e0;
+  --accent-foreground: #704880;
+
+  /* Lain-lain */
+  --border: #d0d0d0;
+  --input: #e0e0e0;
+  --ring: #835693;
+  --destructive: #c23b22;
+  --destructive-foreground: #ffffff;
+
+  /* Variabel untuk Particle Background (Light Mode) */
+  --gradient-start: #ffffff;
+  --gradient-2: #f8f6f9;
+  --gradient-3: #f0ecf2;
+  --gradient-4: #e8e2eb;
+  --gradient-end: #e0d8e4;
+  --particle-1: #4a2c5a; /* Partikel ungu gelap agar terlihat */
+  --particle-2: #704880;
+  --particle-3: #9664a6;
+}
+
+.dark {
+  /* Latar Belakang & Teks */
+  --background: #1b1b1a; /* Ungu paling gelap dari gradien */
+  --foreground: #f0f0f0; /* Abu-abu terang dari partikel untuk teks */
+  --card: #5d3a6d; /* Ungu setingkat lebih cerah untuk kartu */
+  --card-foreground: #f0f0f0;
+  --popover: #4a2c5a;
+  --popover-foreground: #f0f0f0;
+
+  /* Elemen Utama (Primary) */
+  --primary: #9664a6; /* Ungu paling cerah dari gradien */
+  --primary-foreground: #ffffff; /* Teks putih kontras */
+
+  /* Elemen Sekunder & Aksen */
+  --secondary: #1b1b1a;
+  --secondary-foreground: #e0e0e0;
+  --accent: #704880;
+  --accent-foreground: #ffffff;
+
+  /* Lain-lain */
+  --border: #704880;
+  --input: #5d3a6d;
+  --ring: #9664a6;
+  --destructive: #e57373;
+  --destructive-foreground: #ffffff;
+
+  /* Variabel untuk Particle Background (Sesuai Kode Asli) */
+  --gradient-start: #4a2c5a;
+  --gradient-2: #5d3a6d;
+  --gradient-3: #704880;
+  --gradient-4: #835693;
+  --gradient-end: #9664a6;
+  --particle-1: #ffffff;
+  --particle-2: #f0f0f0;
+  --particle-3: #e0e0e0;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    /* @apply bg-background text-foreground; */
+    @apply bg-background text-foreground;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+  .content {
+    @apply will-change-transform;
+  }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}

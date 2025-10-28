@@ -4,12 +4,11 @@ import { Marquee } from "../ui/marquee";
 import { Code } from "lucide-react";
 
 const Overview = () => {
-
   return (
     <div id="about-me" className=" space-y-8 pt-8 min-h-screen ">
       <h2 className="text-4xl font-semibold">About Me</h2>
       <h4 className="text-2xl text-justify">
-        I'm DAN, a 19-year-old third-semester Computer Engineering student at ITB.
+        I'm DAN, a 19-year-old Computer Engineering student at ITB.
       </h4>
       <p className="mt-2 text-justify">
         As a diligent, hardworking, and curious individual, I am passionate
@@ -30,7 +29,7 @@ const Overview = () => {
         </div>
 
         <div className="bg-primary text-secondary p-6 rounded-xl text-center flex items-center gap-4 w-full max-w-sm">
-          <span className="text-5xl font-bold">11+</span>
+          <span className="text-5xl font-bold">15+</span>
           <span className="text-xl">Completed projects</span>
         </div>
 
@@ -45,7 +44,10 @@ const Overview = () => {
         <h4 className="text-2xl">My Service</h4>
         <div className="experiences grid gap-5 grid-cols-1 lg:grid-cols-3 place-items-center ">
           <div className="border-2 border-primary p-2 lg:p-8 rounded-lg w-full max-w-sm">
-            <h5 className="text-lg font-semibold flex gap-2"><Code />RedM Developer</h5>
+            <h5 className="text-lg font-semibold flex gap-2">
+              <Code />
+              RedM Developer
+            </h5>
             <p>
               I specialize in developing custom RedM scripts, creating features,
               optimizing performance, and maintaining stable servers
@@ -65,7 +67,7 @@ const Overview = () => {
           </Marquee>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 

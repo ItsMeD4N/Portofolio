@@ -12,14 +12,14 @@ export const projectData = [
     subtitle: "Report System",
     description: "Developing Report System for RedM Server",
     bgImage: "/assets/projects/report-system.jpeg",
-    link: "https://github.com/ItsMeD4N/ox_lib-Redm-Reskin",
+    link: "#",
   },
   {
     title: "RedM",
     subtitle: "Bank System",
     description: "Developing Bank System for RedM Server",
     bgImage: "/assets/projects/bank-system.jpeg",
-    link: "https://github.com/ItsMeD4N/ox_lib-Redm-Reskin",
+    link: "#",
   },
   {
     title: "Roblox",
@@ -30,7 +30,7 @@ export const projectData = [
   },
   {
     title: "Website",
-    subtitle: "Lous & Found",
+    subtitle: "Lost & Found",
     description:
       "Developing a Lost & Found Website Integrated with ESP32 and Arduino",
     bgImage: "",

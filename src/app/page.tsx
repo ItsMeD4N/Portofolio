@@ -16,6 +16,7 @@ export default function Home() {
         <div className="container mx-auto px-6 lg:px-0">
           <Overview />
           <Experience />
+          <Projects />
         </div>
       </SideNav>
       <Contact />

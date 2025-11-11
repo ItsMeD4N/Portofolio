@@ -1,42 +1,43 @@
-"use client"
+"use client";
 
-import { useCallback, useEffect, useRef } from "react"
-import { Moon, Sun } from "lucide-react"
-import { flushSync } from "react-dom"
-import { useAtom } from "jotai"
+import { useCallback, useEffect, useRef } from "react";
+import { Moon, Sun } from "lucide-react";
+import { flushSync } from "react-dom";
+import { useAtom } from "jotai";
 
-import { themeAtom } from "@/atoms/themeAtom"
-import { cn } from "@/lib/utils"
+import { themeAtom } from "@/atoms/themeAtom";
+import { cn } from "@/lib/utils";
 
 type Props = {
-  className?: string
-}
+  className?: string;
+};
 
 export const AnimatedThemeToggler = ({ className }: Props) => {
-  const [theme, setTheme] = useAtom(themeAtom)
-  const buttonRef = useRef<HTMLButtonElement>(null)
+  const [theme, setTheme] = useAtom(themeAtom);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark")
-  }, [theme])
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
 
   const toggleTheme = useCallback(async () => {
-    if (!buttonRef.current) return
+    if (!buttonRef.current) return;
 
     await document.startViewTransition(() => {
       flushSync(() => {
-        const newTheme = theme === "dark" ? "light" : "dark"
-        setTheme(newTheme)
-      })
-    }).ready
+        const newTheme = theme === "dark" ? "light" : "dark";
+        setTheme(newTheme);
+      });
+    }).ready;
 
-    const { top, left, width, height } = buttonRef.current.getBoundingClientRect()
-    const x = left + width / 2
-    const y = top + height / 2
+    const { top, left, width, height } =
+      buttonRef.current.getBoundingClientRect();
+    const x = left + width / 2;
+    const y = top + height / 2;
     const maxRadius = Math.hypot(
       Math.max(left, window.innerWidth - left),
       Math.max(top, window.innerHeight - top)
-    )
+    );
 
     document.documentElement.animate(
       {
@@ -50,13 +51,14 @@ export const AnimatedThemeToggler = ({ className }: Props) => {
         easing: "ease-in-out",
         pseudoElement: "::view-transition-new(root)",
       }
-    )
-  }, [theme, setTheme])
+    );
+  }, [theme, setTheme]);
 
   return (
     <button
       ref={buttonRef}
       onClick={toggleTheme}
+      suppressHydrationWarning={true}
       className={cn(
         "rounded-full p-1.5 backdrop-blur-md transition-colors",
 
@@ -71,6 +73,5 @@ export const AnimatedThemeToggler = ({ className }: Props) => {
         <Moon className="text-[#5d3a6d]" />
       )}
     </button>
-
-  )
-}
+  );
+};

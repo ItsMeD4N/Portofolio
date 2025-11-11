@@ -17,8 +17,8 @@ import React, { useEffect, useState } from "react";
 const navLinks = [
   { href: "#about-me", label: "Overview", icon: <User size={18} /> },
   { href: "#experiences", label: "Experiences", icon: <Briefcase size={18} /> },
-  /*   { href: "#projects", label: "Projects", icon: <GitBranch size={18} /> },
-  { href: "#blogs", label: "Blogs", icon: <Rss size={18} /> }, */
+  { href: "#projects", label: "Projects", icon: <GitBranch size={18} /> },
+  /* { href: "#blogs", label: "Blogs", icon: <Rss size={18} /> }, */
 ];
 
 const SideNav = ({ children }: { children: React.ReactNode }) => {

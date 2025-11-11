@@ -1,74 +1,84 @@
-"use client"
+"use client";
 
-import React, { useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
-import Link from 'next/link';
-import { projectData } from '@/data/project';
-import { createSlug } from '@/lib/utils';
-
-gsap.registerPlugin(ScrollTrigger);
+import React from "react";
+import Link from "next/link";
+import { projectData } from "@/data/project";
+import { createSlug } from "@/lib/utils";
 
 const Projects = (): React.JSX.Element => {
-  const component = useRef<HTMLDivElement | null>(null);
-
-  useGSAP(() => {
-    const cards = gsap.utils.toArray<HTMLElement>('.project-card');
-    cards.forEach((card) => {
-      const cardInner = card.querySelector<HTMLElement>('.content');
-      if (!cardInner) return;
-      const rotation = gsap.utils.random(-5, 5, 1);
-      gsap.set(cardInner, {
-        rotation: rotation,
-        scale: 1.1,
-      });
-
-      gsap.to(cardInner, {
-        scale: 0.9,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: card,
-          start: 'top bottom',
-          end: 'top 20%',
-          scrub: 1,
-        },
-      });
-
-      gsap.to(cardInner, {
-        y: '+=15',
-        repeat: -1,
-        yoyo: true,
-        ease: 'power1.inOut',
-        duration: gsap.utils.random(1.5, 2.5),
-      });
-    });
-  }, { scope: component });
-
   return (
-    <div ref={component} className="min-h-screen py-8 ">
-      <h2 id='projects' className="text-4xl font-semibold sticky top-10 h-[82vh]">Projects</h2>
-      <div className="relative space-y-8 -mt-[75vh]">
-        {
-          projectData.map((project, index) => (
-            <Link id={createSlug(project.subtitle)} target='_blank' key={index} href={project.link} className='cursor-pointer hover:scale-150'>
-              <div className="project-card sticky top-[10vh] h-[80vh] mx-auto w-11/12 max-w-full">
-                <div
-                  className="content h-full w-full border-primary border-2 rounded-xl grid place-items-center bg-cover bg-center text-secondary p-8"
-                  style={{ backgroundImage: `url(${project.bgImage})` }}
-                >
-                  <div className="space-y-5 bg-black/70 p-6 rounded-lg">
-                    <h3 className="text-center text-4xl md:text-5xl font-bold text-[#F0F0F0]">{project.title}</h3>
-                    <h2 className="text-5xl md:text-7xl text-center font-bold text-[#F0F0F0]">{project.subtitle}</h2>
-                    <p className="text-center text-lg md:text-xl text-[#F0F0F0]">{project.description}</p>
+    <section id="projects" className="min-h-screen py-8 space-y-8">
+      <h2 className="text-4xl font-semibold">Projects</h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+        {projectData.map((project, index) => {
+          const id = createSlug(project.subtitle);
+          const hasImage = Boolean(
+            project.bgImage && project.bgImage.trim().length > 0
+          );
+
+          return (
+            <Link
+              id={id}
+              key={index}
+              href={project.link}
+              target="_blank"
+              className="group relative rounded-2xl border border-primary/40 overflow-hidden bg-background"
+            >
+              <div className="relative aspect-[16/10] overflow-hidden">
+                {hasImage ? (
+                  <img
+                    src={project.bgImage}
+                    alt={`${project.title} - ${project.subtitle}`}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="h-full w-full bg-gradient-to-br from-primary/20 via-primary/10 to-transparent" />
+                )}
+
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
+
+                <div className="absolute inset-0 flex flex-col justify-end p-5">
+                  <div className="space-y-1">
+                    <p className="text-secondary/80 text-xs uppercase tracking-wider">
+                      {project.title}
+                    </p>
+                    <h3 className="text-secondary text-xl font-semibold leading-tight">
+                      {project.subtitle}
+                    </h3>
                   </div>
                 </div>
               </div>
-            </Link >
-          ))
-        }
+
+              <div className="p-5">
+                <p className="text-sm text-muted-foreground line-clamp-3">
+                  {project.description}
+                </p>
+
+                <div className="mt-4 flex items-center justify-between">
+                  <span className="text-xs text-primary/80">View project</span>
+                  <span
+                    className="inline-flex items-center justify-center rounded-full px-3 py-1 text-xs border border-primary/40 text-primary/90
+                               transition-colors duration-300 group-hover:bg-primary group-hover:text-secondary"
+                  >
+                    Open
+                  </span>
+                </div>
+              </div>
+
+              <div
+                className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  boxShadow:
+                    "inset 0 0 0 1px rgba(var(--primary), 0.2), 0 20px 40px -20px rgba(0,0,0,0.6)",
+                }}
+              />
+            </Link>
+          );
+        })}
       </div>
-    </div>
+    </section>
   );
 };
 

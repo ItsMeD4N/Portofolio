@@ -7,7 +7,7 @@ export const projectData = [
       "https://i.pinimg.com/originals/dc/99/47/dc99470e247a965d66e66895c742a21d.gif",
     link: "https://github.com/ItsMeD4N/Board-Game",
   },
-  /*   {
+  {
     title: "RedM",
     subtitle: "Report System",
     description: "Developing Report System for RedM Server",
@@ -20,7 +20,7 @@ export const projectData = [
     description: "Developing Bank System for RedM Server",
     bgImage: "/assets/projects/bank-system.jpeg",
     link: "#",
-  }, */
+  }, 
   {
     title: "Roblox",
     subtitle: "Lua Executor",

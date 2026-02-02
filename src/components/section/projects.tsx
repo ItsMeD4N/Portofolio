@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { projectData } from "@/data/project";
 import { createSlug } from "@/lib/utils";
+import { TiltCard } from "@/components/ui/tilt-card";
 
 const Projects = (): React.JSX.Element => {
   return (
@@ -18,7 +18,7 @@ const Projects = (): React.JSX.Element => {
           );
 
           return (
-            <Link
+            <TiltCard
               id={id}
               key={index}
               href={project.link}
@@ -74,7 +74,7 @@ const Projects = (): React.JSX.Element => {
                     "inset 0 0 0 1px rgba(var(--primary), 0.2), 0 20px 40px -20px rgba(0,0,0,0.6)",
                 }}
               />
-            </Link>
+            </TiltCard>
           );
         })}
       </div>

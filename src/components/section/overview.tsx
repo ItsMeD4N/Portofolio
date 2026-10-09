@@ -28,7 +28,7 @@ const Overview = () => {
       <TerminalWindow title="about.md">
         <div className="space-y-4 p-5 md:p-7 leading-relaxed">
           <p className="text-xl md:text-2xl text-foreground">
-            <span className="text-muted-foreground"># </span>I&apos;m DAN, a 19-year-old Computer Engineering student at ITB.
+            <span className="text-muted-foreground"># </span>I&apos;m DAN, a 20 years old Computer Engineering student at ITB.
           </p>
           <p className="text-muted-foreground">
             Diligent, hardworking and curious. Passionate about <Hl>Cyber Security</Hl> and{" "}

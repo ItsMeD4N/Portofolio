@@ -1,133 +1,109 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Github, Instagram, Linkedin } from "lucide-react";
-import { Separator } from "../ui/separator";
-import { gsap } from "gsap";
-import ParticleBackground from "../layout/particle-background";
-import { LineShadowText } from "../ui/line-shadow-text";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { InteractiveHoverButton } from "../ui/interactive-hover-button";
-import IntroWave from "../../../public/assets/waves/intro-wave";
+import { TiltCard } from "../ui/tilt-card";
+import { TerminalWindow, Typewriter } from "../ui/terminal";
+import { socials } from "../layout/footer";
 
-const Intro = () => {
-  const introRef = useRef<HTMLDivElement | null>(null);
+const LINES: { text: string; kind: "cmd" | "out" | "hi" }[] = [
+  { text: "$ whoami", kind: "cmd" },
+  { text: "DAN // computer engineering @ ITB", kind: "out" },
+  { text: "$ cat passion.txt", kind: "cmd" },
+  { text: "> cyber security    // break it to secure it", kind: "hi" },
+  { text: "> game server dev   // RedM · FiveM", kind: "hi" },
+  { text: "$ ./focus --list", kind: "cmd" },
+  { text: "[ok] performance  [ok] minimalism  [ok] clean UX", kind: "out" },
+];
+const TOTAL = LINES.reduce((n, l) => n + l.text.length, 0);
+const COLOR = { cmd: "text-foreground", out: "text-muted-foreground", hi: "text-accent" };
 
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        defaults: {
-          duration: 0.8,
-          ease: "power3.out",
-          autoAlpha: 0,
-          y: 30,
-        },
-      });
+function TypedSession() {
+  const [n, setN] = useState(0);
 
-      tl.from("[data-animation='greeting']", {})
-        .from("[data-animation='headline']", {}, "-=0.6")
-        .from("[data-animation='paragraph']", {}, "-=0.6")
-        .from(
-          "[data-animation='cta-button']",
-          {
-            stagger: 0.15,
-          },
-          "-=0.6"
-        )
-        .from(
-          ".social-sidebar",
-          {
-            x: 50,
-            y: 0,
-          },
-          "-=0.8"
-        );
-    }, introRef);
-
-    return () => ctx.revert();
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return setN(TOTAL);
+    const id = setInterval(() => setN((v) => Math.min(v + 1, TOTAL)), 22);
+    return () => clearInterval(id);
   }, []);
 
+  let offset = 0;
   return (
-    <section className="relative h-[115vh] w-full overflow-hidden px-2  ">
-      <ParticleBackground />
-      <div
-        ref={introRef}
-        className="relative z-10 mx-auto grid h-full max-w-6xl place-items-center px-4 sm:px-10 md:px-28 mt-0 md:-mt-20"
-      >
-        <div className="space-y-8 text-center">
-          <h2
-            data-animation="greeting"
-            className="text-2xl font-medium text-[#F0F0F0] md:text-4xl"
-          >
-            Hi, I'm DAN
-          </h2>
-          <h1
-            data-animation="headline"
-            className="text-4xl font-bold leading-tight md:text-7xl text-[#1b1b1a] text-shadow-accent"
-          >
-            Passionate about
-            <span className="text-[#F0F0F0]">
-              <LineShadowText shadowColor="#ffff">reverse</LineShadowText>{" "}
-              <LineShadowText shadowColor="#ffff">engineering</LineShadowText>
-            </span>{" "}
-            and
-            <span className="text-[#F0F0F0]">
-              <LineShadowText shadowColor="#ffff">system</LineShadowText>
-              <LineShadowText shadowColor="#ffff">-</LineShadowText>
-              <LineShadowText shadowColor="#ffff">level</LineShadowText>{" "}
-              <LineShadowText shadowColor="#ffff">scripting</LineShadowText>
-            </span>
-          </h1>
+    <pre className="p-5 md:p-7 text-sm md:text-base leading-relaxed whitespace-pre-wrap min-h-[17rem]">
+      {LINES.map((l, i) => {
+        const shown = l.text.slice(0, Math.max(0, n - offset));
+        offset += l.text.length;
+        if (!shown) return null;
+        return (
+          <div key={i} className={COLOR[l.kind]}>
+            {l.kind === "cmd" ? (
+              <>
+                <span className="text-primary">$</span>
+                {shown.slice(1)}
+              </>
+            ) : (
+              shown
+            )}
+          </div>
+        );
+      })}
+      <span className="cursor text-primary" />
+    </pre>
+  );
+}
 
-          <p
-            data-animation="paragraph"
-            className="mx-auto max-w-3xl text-lg text text-[#F0F0F0]"
-          >
-            Focused on performance, minimalism, and creating clean, intuitive
-            user experiences.
+const Intro = () => {
+  return (
+    <section className="relative min-h-screen w-full overflow-hidden px-4 flex items-center">
+      <div className="grid-floor" aria-hidden />
+      <div className="relative z-10 mx-auto grid w-full max-w-6xl gap-12 lg:grid-cols-[1fr_1.1fr] items-center py-24">
+        <div className="space-y-6">
+          <p className="text-sm text-muted-foreground">
+            <span className="text-primary">[sys]</span> neural link established_
           </p>
-
-          <ul className="flex items-center justify-center gap-4 py-6 md:gap-6">
-            <li data-animation="cta-button">
-              <InteractiveHoverButton>
-                <Link href="#about-me" className="text-lg ">
-                  <span>About Me</span>
-                </Link>
-              </InteractiveHoverButton>
-            </li>
-            <li data-animation="cta-button">
-              <InteractiveHoverButton>
-                <Link href="#contact" className="text-lg ">
-                  <span>Let's Talk</span>
-                </Link>
-              </InteractiveHoverButton>
-            </li>
-          </ul>
-
-          <ul className="social-sidebar lg:absolute -right-24 top-1/2 flex lg:-translate-y-1/2 lg:-rotate-90 transform items-center gap-4 justify-center text-[#F0F0F0] ">
-            <li className="lg:rotate-90">
-              <a href="#" className="transition-colors  hover:text-black">
-                <Github />
-              </a>
-            </li>
-            <li className="lg:rotate-90">
-              <a href="#" className="transition-colors  hover:text-black">
-                <Linkedin />
-              </a>
-            </li>
-            <li className="lg:rotate-90">
-              <a href="#" className="transition-colors  hover:text-black">
-                <Instagram />
-              </a>
-            </li>
-            <Separator className="max-w-2 bg-[#F0F0F0]" />
-            <Separator className="max-w-8 bg-[#F0F0F0]" />
-            <p className="whitespace-nowrap text-sm ">Follow Me</p>
+          <h1
+            data-text="ItsMeDAN"
+            className="glitch text-5xl md:text-7xl font-black tracking-tighter text-primary"
+          >
+            ItsMeDAN
+          </h1>
+          <p className="max-w-md text-muted-foreground">
+            <Typewriter text="Writing code that survives production, and finding the holes before anyone else does." speed={28} />
+          </p>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <Link
+              href="#about-me"
+              className="border border-primary bg-primary px-5 py-2.5 font-bold text-primary-foreground transition hover:bg-transparent hover:text-primary"
+            >
+              ./about-me
+            </Link>
+            <Link
+              href="#contact"
+              className="border border-primary/50 px-5 py-2.5 text-primary transition hover:border-primary"
+            >
+              ./lets-talk
+            </Link>
+          </div>
+          <ul className="flex gap-5 pt-4 text-muted-foreground">
+            {socials.map(({ label, href, Icon }) => (
+              <li key={label}>
+                <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="transition hover:text-primary">
+                  <Icon className="size-5" />
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
-      </div>
-      <div className=" absolute w-full -bottom-6 left-0">
-        <IntroWave />
+
+        <div className="[perspective:1200px]">
+          <div className="lg:[transform:rotateY(-12deg)_rotateX(6deg)] [transform-style:preserve-3d]">
+            <TiltCard rotationFactor={8}>
+              <TerminalWindow title="0xItsMeDAN: ~ — zsh">
+                <TypedSession />
+              </TerminalWindow>
+            </TiltCard>
+          </div>
+        </div>
       </div>
     </section>
   );

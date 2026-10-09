@@ -1,93 +1,85 @@
 import { skills } from "@/data/overview";
-import { Highlighter } from "../ui/highlighter";
 import { Marquee } from "../ui/marquee";
-import { Code } from "lucide-react";
+import { TiltCard } from "../ui/tilt-card";
+import { Prompt, TerminalWindow } from "../ui/terminal";
+
+const stats = [
+  { value: "5", label: "years_experience" },
+  { value: "30+", label: "projects_shipped" },
+  { value: "2+", label: "in_progress" },
+];
+
+const services = [
+  { name: "redm.dev", body: "Custom RedM scripts, new features, performance tuning and stable servers." },
+  { name: "fivem.dev", body: "Custom FiveM scripts, new features, performance tuning and stable servers." },
+  { name: "web.dev", body: "Modern websites, features, performance work and secure, scalable apps." },
+];
+
+const Hl = ({ children }: { children: React.ReactNode }) => (
+  <span className="text-primary">{children}</span>
+);
 
 const Overview = () => {
   return (
-    <div id="about-me" className=" space-y-8 pt-8 min-h-screen ">
-      <h2 className="text-4xl font-semibold">About Me</h2>
-      <h4 className="text-2xl text-justify">
-        I'm DAN, a 19-year-old Computer Engineering student at ITB.
-      </h4>
-      <p className="mt-2 text-justify">
-        As a diligent, hardworking, and curious individual, I am passionate about
-        <span className="font-semibold"> Cyber Security </span> and
-        <span className="font-semibold"> Software Development </span>, which I
-        continuously explore and improve. I specialize as a
-        <span className="font-semibold"> RedM </span> and
-        <span className="font-semibold"> FiveM Developer</span>, creating and
-        customizing server scripts to deliver immersive roleplay experiences. In
-        addition, I work as a
-        <span className="font-semibold"> Website Developer</span>, building modern,
-        responsive websites, developing features, optimizing performance, and
-        ensuring stable, maintainable applications.
-      </p>
+    <div id="about-me" className="space-y-10 pt-12 min-h-screen">
+      <Prompt path="~" cmd="cat about.md" />
 
-
-      <div className="experiences grid gap-10 grid-cols-1 lg:grid-cols-3 place-items-center">
-        <div className="bg-primary text-secondary p-6 rounded-xl text-center flex items-center gap-4 w-full max-w-sm ">
-          <span className="text-5xl font-bold">3+</span>
-          <span className="text-xl">Year of experience</span>
+      <TerminalWindow title="about.md">
+        <div className="space-y-4 p-5 md:p-7 leading-relaxed">
+          <p className="text-xl md:text-2xl text-foreground">
+            <span className="text-muted-foreground"># </span>I&apos;m DAN, a 19-year-old Computer Engineering student at ITB.
+          </p>
+          <p className="text-muted-foreground">
+            Diligent, hardworking and curious. Passionate about <Hl>Cyber Security</Hl> and{" "}
+            <Hl>Software Development</Hl>. I specialize as a <Hl>RedM</Hl> and <Hl>FiveM Developer</Hl>,
+            writing server scripts that deliver immersive roleplay. I also work as a <Hl>Website Developer</Hl>,
+            building responsive sites, shipping features and keeping apps fast, stable and maintainable.
+          </p>
         </div>
+      </TerminalWindow>
 
-        <div className="bg-primary text-secondary p-6 rounded-xl text-center flex items-center gap-4 w-full max-w-sm">
-          <span className="text-5xl font-bold">15+</span>
-          <span className="text-xl">Completed projects</span>
-        </div>
+      <div className="grid gap-5 grid-cols-1 sm:grid-cols-3">
+        {stats.map((s) => (
+          <TiltCard key={s.label} className="border border-border bg-card/85 p-6">
+            <div className="[transform:translateZ(40px)]">
+              <div className="text-5xl font-black text-primary">{s.value}</div>
+              <div className="mt-2 text-sm text-muted-foreground">{s.label}</div>
+            </div>
+          </TiltCard>
+        ))}
+      </div>
 
-        <div className="bg-primary text-secondary p-6 rounded-xl text-center flex items-center gap-4 w-full max-w-sm">
-          <span className="text-5xl font-bold">1+</span>
-          <span className="text-xl">On Going Project</span>
+      <div className="space-y-5">
+        <Prompt path="~/services" cmd="ls -la" className="text-lg md:text-xl" />
+        <div className="grid gap-5 grid-cols-1 lg:grid-cols-3">
+          {services.map((s) => (
+            <TiltCard key={s.name} className="group border border-border bg-card/85 p-6 transition-colors hover:border-primary">
+              <div className="[transform:translateZ(30px)] space-y-3">
+                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                  <span>-rwxr-xr-x</span>
+                  <span className="text-accent">exec</span>
+                </div>
+                <h3 className="text-lg font-bold text-primary">{s.name}</h3>
+                <p className="text-sm text-muted-foreground">{s.body}</p>
+              </div>
+            </TiltCard>
+          ))}
         </div>
       </div>
 
-      {/* Services */}
-      <div id="my-service" className="space-y-10 my-20">
-        <h4 className="text-2xl">My Service</h4>
-        <div className="experiences grid gap-5 grid-cols-1 lg:grid-cols-3 place-items-center ">
-          <div className="border-2 border-primary p-2 lg:p-8 rounded-lg w-full max-w-sm">
-            <h5 className="text-lg font-semibold flex gap-2">
-              <Code />
-              RedM Developer
-            </h5>
-            <p>
-              I specialize in developing custom RedM scripts, creating features,
-              optimizing performance, and maintaining stable servers
-            </p>
-          </div>
-          <div className="border-2 border-primary p-2 lg:p-8 rounded-lg w-full max-w-sm">
-            <h5 className="text-lg font-semibold flex gap-2">
-              <Code />
-              Fivem Developer
-            </h5>
-            <p>
-              I specialize in developing custom Fivem scripts, creating features,
-              optimizing performance, and maintaining stable servers
-            </p>
-          </div>
-          <div className="border-2 border-primary p-2 lg:p-8 rounded-lg w-full max-w-sm">
-            <h5 className="text-lg font-semibold flex gap-2">
-              <Code />
-              Website Developer
-            </h5>
-            <p>
-               I specialize in developing modern websites, creating features, optimizing performance, and maintaining secure scalable applications
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Skills */}
-      <div id="my-service" className="space-y-10 my-20">
-        <h4 className="text-2xl">My Skills</h4>
-        <div className="skills flex">
-          <Marquee pauseOnHover className="[--duration:20s]">
-            {skills.map((skill, index) => (
-              <img src={skill.link} key={index} className="w-20" />
-            ))}
-          </Marquee>
-        </div>
+      <div className="space-y-5 pb-10">
+        <Prompt path="~/skills" cmd="lsmod" className="text-lg md:text-xl" />
+        <Marquee pauseOnHover className="[--duration:25s]">
+          {skills.map((skill) => (
+            <div
+              key={skill.label}
+              className="flex w-28 flex-col items-center gap-2 border border-border bg-card/70 p-3 transition hover:border-primary"
+            >
+              <img src={skill.link} alt={skill.label} className="size-12 grayscale" />
+              <span className="text-xs text-muted-foreground">{skill.label}</span>
+            </div>
+          ))}
+        </Marquee>
       </div>
     </div>
   );

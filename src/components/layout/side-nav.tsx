@@ -15,9 +15,9 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const navLinks = [
-  { href: "#about-me", label: "Overview", icon: <User size={18} /> },
-  { href: "#experiences", label: "Experiences", icon: <Briefcase size={18} /> },
-  { href: "#projects", label: "Projects", icon: <GitBranch size={18} /> },
+  { href: "#about-me", label: "about.md", icon: <User size={18} /> },
+  { href: "#experiences", label: "experience.log", icon: <Briefcase size={18} /> },
+  { href: "#projects", label: "projects/", icon: <GitBranch size={18} /> },
   /* { href: "#blogs", label: "Blogs", icon: <Rss size={18} /> }, */
 ];
 
@@ -70,7 +70,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
     <>
       {/* Mobile toggle button */}
       <button
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-primary text-secondary rounded-full shadow-lg"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 border border-primary bg-background text-primary"
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         aria-label="Toggle navigation"
       >
@@ -85,17 +85,17 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
         />
       )}
 
-      <div className="max-w-6xl mx-auto lg:flex lg:items-start lg:gap-10">
+      <div className="max-w-6xl mx-auto lg:flex lg:items-start lg:gap-10 lg:px-6">
         <ul
           className={cn(
-            "fixed top-0 left-0 h-full w-64 bg-background p-8 flex flex-col gap-4 z-40",
+            "fixed top-0 left-0 h-full w-64 bg-background border-r border-border p-8 pt-20 flex flex-col gap-4 z-40",
             "transition-transform duration-300 ease-in-out",
             isSidebarOpen ? "translate-x-0" : "-translate-x-full",
-            "lg:sticky lg:top-0 lg:h-auto lg:w-auto lg:bg-transparent lg:p-0 lg:pt-12 lg:translate-x-0"
+            "lg:sticky lg:top-0 lg:h-auto lg:w-auto lg:bg-transparent lg:border-r-0 lg:p-0 lg:pt-12 lg:translate-x-0"
           )}
         >
           {navLinks.map((link) => {
-            if (link.label === "Projects") {
+            if (link.href === "#projects") {
               const isProjectsSectionActive =
                 activeSection.startsWith("#projects") ||
                 projectData.some(
@@ -107,10 +107,10 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                   <button
                     onClick={() => setIsProjectsOpen(!isProjectsOpen)}
                     className={cn(
-                      "flex items-center justify-between w-48 px-4 py-2 transition-colors duration-200 rounded-full truncate",
+                      "flex items-center justify-between w-48 px-4 py-2 transition-colors duration-200 border-l-2 border-transparent truncate",
                       isProjectsSectionActive
-                        ? "bg-primary text-secondary font-semibold"
-                        : "hover:text-primary"
+                        ? "border-primary bg-primary/10 text-primary font-semibold"
+                        : "text-muted-foreground hover:text-primary"
                     )}
                   >
                     <div className="flex items-center gap-3 overflow-hidden">
@@ -171,7 +171,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           })}
         </ul>
 
-        <div>{children}</div>
+        <div className="min-w-0 flex-1">{children}</div>
       </div>
     </>
   );
@@ -206,9 +206,9 @@ const NavLink = ({
             ? "text-sm font-semibold underline"
             : "text-sm"
           : // 👉 For normal nav links
-            "flex items-center gap-3 px-4 py-2 transition-colors duration-200 rounded-full text-sm truncate",
-        isActive && !isSubLink && "bg-primary text-secondary font-semibold",
-        !isSubLink && !isActive && "hover:text-primary"
+            "flex items-center gap-3 px-4 py-2 transition-colors duration-200 border-l-2 border-transparent text-sm truncate",
+        isActive && !isSubLink && "border-primary bg-primary/10 text-primary font-semibold",
+        !isSubLink && !isActive && "text-muted-foreground hover:text-primary"
       )}
     >
       {icon}

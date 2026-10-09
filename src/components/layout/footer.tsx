@@ -1,39 +1,24 @@
-"use client";
+import { Github, Linkedin, MessageSquare } from "lucide-react";
 
-import { Separator } from "@/components/ui/separator";
-import { Github, Linkedin, Instagram } from "lucide-react";
+export const socials = [
+  { label: "GitHub", href: "https://github.com/itsmed4n", Icon: Github },
+  { label: "LinkedIn", href: "https://linkedin.com/in/itsmed4n", Icon: Linkedin },
+  { label: "Discord", href: "https://discord.com/users/itsmed4n", Icon: MessageSquare },
+];
 
 export default function Footer() {
   return (
-    <footer className="absolute w-full bottom-6 px-6 ">
-      <Separator className="mb-4 bg-[#F0F0F0]" />
-      <div className="flex items-center justify-between text-lg max-w-6xl mx-auto text-[#F0F0F0]">
-        <p>© {new Date().getFullYear()} ItsMeDAN</p>
+    <footer className="relative z-10 w-full border-t border-border px-6 py-5 text-sm text-muted-foreground">
+      <div className="mx-auto flex max-w-6xl items-center justify-between">
+        <p>
+          <span className="text-primary">©</span> {new Date().getFullYear()} ItsMeDAN <span className="hidden sm:inline">// exit 0</span>
+        </p>
         <div className="flex gap-4">
-          <a
-            href="https://github.com/itsmed4n"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-foreground transition-colors"
-          >
-            <Github className="w-6 h-6" />
-          </a>
-          <a
-            href="https://linkedin.com/in/itsmed4n"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-foreground transition-colors"
-          >
-            <Linkedin className="w-6 h-6" />
-          </a>
-          <a
-            href="https://discord.com/users/itsmed4n"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-foreground transition-colors"
-          >
-            <Instagram className="w-6 h-6" />
-          </a>
+          {socials.map(({ label, href, Icon }) => (
+            <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="transition-colors hover:text-primary">
+              <Icon className="size-5" />
+            </a>
+          ))}
         </div>
       </div>
     </footer>

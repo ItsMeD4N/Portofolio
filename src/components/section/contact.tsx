@@ -1,23 +1,36 @@
 'use client'
 
-import ContactWave from "../../../public/assets/waves/contact-wave"
-import Lanyard from "../Lanyard"
+import { useEffect, useRef, useState } from "react"
+import AsciiCore from "../ascii-core"
 import Footer from "../layout/footer"
-import ParticleBackground from "../layout/particle-background"
 import ContactForm from "../ui/contact/contact-form"
+import { Prompt, TerminalWindow } from "../ui/terminal"
 
 const Contact = () => {
+  const ref = useRef<HTMLElement>(null)
+  const [near, setNear] = useState(false)
+
+  // Second WebGL scene; only boot it when contact is close.
+  useEffect(() => {
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && setNear(true), { rootMargin: "300px" })
+    if (ref.current) io.observe(ref.current)
+    return () => io.disconnect()
+  }, [])
+
   return (
-    <div id="contact" className="relative w-full bg-[var(--background)] text-[var(--foreground)] overflow-hidden flex items-center justify-center min-h-[80vh] gap-96 p-8">
-      <div className="absolute top-0 z-30 left-0 w-full ">
-        <ContactWave />
+    <section ref={ref} id="contact" className="relative w-full overflow-hidden pt-24">
+      <div className="grid-floor" aria-hidden />
+      <div className="relative z-10 mx-auto max-w-6xl px-6">
+        <Prompt path="~/contact" cmd="ssh hello@ItsMeDAN" />
       </div>
-      <ParticleBackground />
-      <Lanyard />
-      <div className="hidden md:block"></div>
-      <ContactForm />
+      <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-6 py-12 md:grid-cols-2">
+        <TerminalWindow title="~/core — render --ascii" className="hidden md:block">
+          {near && <AsciiCore />}
+        </TerminalWindow>
+        <ContactForm />
+      </div>
       <Footer />
-    </div >
+    </section>
   )
 }
 export default Contact

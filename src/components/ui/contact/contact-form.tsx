@@ -1,11 +1,8 @@
-import { Mail, MessageSquare, User, Send, CheckCircle } from "lucide-react";
 import { useState, FormEvent } from "react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../card";
-import { MagicCard } from "../magic-card";
-import { Button } from "../button";
-import { Label } from "../label";
-import { Input } from "../input";
-import { Textarea } from "../textarea";
+import { TerminalWindow } from "../terminal";
+
+const field =
+  "w-full border-0 border-b border-border bg-transparent px-0 py-1.5 text-foreground placeholder:text-muted-foreground/60 outline-none transition-colors focus:border-primary";
 
 const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -19,79 +16,42 @@ const ContactForm = () => {
     setSubmitted(true);
   };
 
-  if (submitted) {
-    return (
-      <Card className="p-0 w-full max-w-54 shadow-none border-none backdrop-blur-2xl bg-transparent">
-        <MagicCard gradientColor="#D9D9D955" className="p-0">
-          <CardHeader className="p-4 items-center grid place-items-center">
-            <CheckCircle className="w-16 h-16 text-green-500 mb-2" />
-            <CardTitle>Message Sent!</CardTitle>
-            <CardDescription className="text-center">
-              Thank you for reaching out. We'll get back to you soon.
-            </CardDescription>
-          </CardHeader>
-        </MagicCard>
-      </Card>
-    );
-  }
-
   return (
-    <Card className="p-0 max-w-sm w-full shadow-none border-none backdrop-blur-2xl bg-transparent z-30">
-
-      <MagicCard
-        gradientColor="#D9D9D955"
-        className="p-0"
-      >
-        <form onSubmit={handleSubmit}>
-          <CardHeader className="border-b border-border p-4 [.border-b]:pb-4">
-            <CardTitle>Let's Get in Touch</CardTitle>
-            <CardDescription>
-              Have a question or a project in mind? Drop a line.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="p-4 backdrop-blur-2xl bg-transparent">
-
-            <div className="grid gap-4">
-              <div className="grid gap-2">
-                <Label htmlFor="name">Full Name</Label>
-                <div className="relative">
-                  <User className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input id="name" placeholder="Your Name" required className="pl-9" />
-                </div>
-              </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <div className="relative">
-                  <Mail className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input id="email" type="email" placeholder="yourEmail@example.com" required className="pl-9" />
-                </div>
-              </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="message">Message</Label>
-                <div className="relative">
-                  <MessageSquare className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Textarea id="message" placeholder="Tell us how we can help..." required className="pl-9" />
-                </div>
-              </div>
-            </div>
-
-          </CardContent>
-          <CardFooter className="p-4 border-t border-border">
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? (
-                "Sending..."
-              ) : (
-                <>
-                  Send Message <Send className="ml-2 h-4 w-4" />
-                </>
-              )}
-            </Button>
-          </CardFooter>
+    <TerminalWindow title="ssh hello@ItsMeDAN — 80×24" className="w-full max-w-md justify-self-center md:justify-self-end">
+      {submitted ? (
+        <div className="space-y-2 p-6 text-sm">
+          <p className="text-muted-foreground">$ send --to dan</p>
+          <p className="text-primary">[ok] message delivered.</p>
+          <p className="text-muted-foreground">Thanks for reaching out, I&apos;ll get back to you soon.</p>
+          <p className="cursor text-primary">exit 0</p>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-5 p-6 text-sm">
+          <p className="text-muted-foreground">
+            <span className="text-primary">#</span> Got a question or a project in mind? Drop a line.
+          </p>
+          <label className="block space-y-1">
+            <span className="text-accent">&gt; name:</span>
+            <input name="name" placeholder="your name" required className={field} />
+          </label>
+          <label className="block space-y-1">
+            <span className="text-accent">&gt; email:</span>
+            <input name="email" type="email" placeholder="you@example.com" required className={field} />
+          </label>
+          <label className="block space-y-1">
+            <span className="text-accent">&gt; message:</span>
+            <textarea name="message" rows={4} placeholder="tell me what you're building..." required className={`${field} resize-none`} />
+          </label>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full border border-primary bg-primary py-2.5 font-bold text-primary-foreground transition hover:bg-transparent hover:text-primary disabled:opacity-60"
+          >
+            {isSubmitting ? "transmitting..." : "$ send --to dan"}
+          </button>
         </form>
-      </MagicCard>
-    </Card >
+      )}
+    </TerminalWindow>
   );
 }
 

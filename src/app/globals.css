@@ -71,79 +71,31 @@
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.25rem;
 
-  /* Latar Belakang & Teks */
-  --background: #f0f0f0; /* Abu-abu terang dari partikel */
-  --foreground: #4a2c5a; /* Ungu gelap dari gradien untuk teks */
-  --card: #ffffff; /* Putih bersih untuk kartu */
-  --card-foreground: #4a2c5a;
-  --popover: #ffffff;
-  --popover-foreground: #4a2c5a;
+  --background: #000000;
+  --foreground: #e6e6e6;
+  --card: #0a0a0a;
+  --card-foreground: #e6e6e6;
+  --popover: #0a0a0a;
+  --popover-foreground: #e6e6e6;
 
-  /* Elemen Utama (Primary) */
-  --primary: #835693; /* Ungu cerah dari gradien */
-  --primary-foreground: #ffffff; /* Teks putih kontras */
+  --primary: #ffffff;
+  --primary-foreground: #000000;
+  --secondary: #141414;
+  --secondary-foreground: #e6e6e6;
+  --muted: #141414;
+  --muted-foreground: #8a8a8a;
+  --accent: #bdbdbd;
+  --accent-foreground: #000000;
 
-  /* Elemen Sekunder & Aksen */
-  --secondary: #e0e0e0;
-  --secondary-foreground: #5d3a6d;
-  --accent: #e0e0e0;
-  --accent-foreground: #704880;
-
-  /* Lain-lain */
-  --border: #d0d0d0;
-  --input: #e0e0e0;
-  --ring: #835693;
-  --destructive: #c23b22;
+  --border: #262626;
+  --input: #262626;
+  --ring: #ffffff;
+  --destructive: #ff4d4d;
   --destructive-foreground: #ffffff;
 
-  /* Variabel untuk Particle Background (Light Mode) */
-  --gradient-start: #ffffff;
-  --gradient-2: #f8f6f9;
-  --gradient-3: #f0ecf2;
-  --gradient-4: #e8e2eb;
-  --gradient-end: #e0d8e4;
-  --particle-1: #4a2c5a; /* Partikel ungu gelap agar terlihat */
-  --particle-2: #704880;
-  --particle-3: #9664a6;
-}
-
-.dark {
-  /* Latar Belakang & Teks */
-  --background: #1b1b1a; /* Ungu paling gelap dari gradien */
-  --foreground: #f0f0f0; /* Abu-abu terang dari partikel untuk teks */
-  --card: #5d3a6d; /* Ungu setingkat lebih cerah untuk kartu */
-  --card-foreground: #f0f0f0;
-  --popover: #4a2c5a;
-  --popover-foreground: #f0f0f0;
-
-  /* Elemen Utama (Primary) */
-  --primary: #9664a6; /* Ungu paling cerah dari gradien */
-  --primary-foreground: #ffffff; /* Teks putih kontras */
-
-  /* Elemen Sekunder & Aksen */
-  --secondary: #1b1b1a;
-  --secondary-foreground: #e0e0e0;
-  --accent: #704880;
-  --accent-foreground: #ffffff;
-
-  /* Lain-lain */
-  --border: #704880;
-  --input: #5d3a6d;
-  --ring: #9664a6;
-  --destructive: #e57373;
-  --destructive-foreground: #ffffff;
-
-  /* Variabel untuk Particle Background (Sesuai Kode Asli) */
-  --gradient-start: #4a2c5a;
-  --gradient-2: #5d3a6d;
-  --gradient-3: #704880;
-  --gradient-4: #835693;
-  --gradient-end: #9664a6;
-  --particle-1: #ffffff;
-  --particle-2: #f0f0f0;
-  --particle-3: #e0e0e0;
+  color-scheme: dark;
 }
 
 @layer base {
@@ -151,20 +103,91 @@
     @apply border-border outline-ring/50;
   }
   body {
-    /* @apply bg-background text-foreground; */
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-mono;
   }
-
   html {
     @apply scroll-smooth;
+  }
+  ::selection {
+    background: var(--primary);
+    color: var(--primary-foreground);
   }
   .content {
     @apply will-change-transform;
   }
 }
 
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
+/* blinking block cursor */
+.cursor::after {
+  content: "";
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  margin-left: 0.15em;
+  vertical-align: -0.12em;
+  background: var(--primary);
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* monochrome offset glitch, text comes from data-text */
+.glitch {
+  position: relative;
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+.glitch::before {
+  color: var(--muted-foreground);
+  clip-path: inset(0 0 60% 0);
+  animation: glitch 3.2s infinite steps(1);
+}
+.glitch::after {
+  color: var(--muted-foreground);
+  clip-path: inset(55% 0 0 0);
+  animation: glitch 2.7s infinite reverse steps(1);
+}
+@keyframes glitch {
+  0%, 88%, 100% { transform: none; opacity: 0; }
+  90% { transform: translate(-3px, 1px); opacity: 1; }
+  94% { transform: translate(3px, -1px); opacity: 1; }
+}
+
+/* static 3D perspective grid floor */
+.grid-floor {
+  position: absolute;
+  inset: auto -50% 0 -50%;
+  height: 60%;
+  background-image: linear-gradient(#ffffff14 1px, transparent 1px),
+    linear-gradient(90deg, #ffffff14 1px, transparent 1px);
+  background-size: 60px 60px;
+  transform: perspective(500px) rotateX(70deg);
+  transform-origin: bottom;
+  mask-image: linear-gradient(to top, black, transparent 85%);
+}
+
+/* hidden scrollbars (scrolling still works); clip guards against stray horizontal overflow */
+html {
+  scrollbar-width: none;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+body {
+  overflow-x: clip;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glitch::before, .glitch::after, .cursor::after {
+    animation: none;
+  }
 }

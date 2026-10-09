@@ -11,6 +11,9 @@ import {
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
+// Created once at module level; motion.create() inside render remounts the subtree every render.
+const MotionLink = motion.create(Link);
+
 interface TiltCardProps extends React.HTMLAttributes<HTMLDivElement> {
     children: React.ReactNode;
     className?: string;
@@ -71,18 +74,8 @@ export function TiltCard({
 
     const transform = useMotionTemplate`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 
-    const Component = href ? Link : motion.div;
-
-    // If it's a Link, we need to wrap it in motion to apply styles, 
-    // OR we use motion.create(Link).
-    // However, simpler approach to keep types happy:
-    // Render a motion.div as the wrapper that handles the tilt, 
-    // and put the content (or Link) inside?
-    // User request: "cardnya dibikin 3d". The border/bg is on the Link in projects.tsx.
-    // So the Link Itself needs to be the motion component.
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const MotionComponent = motion.create(Component as any);
+    const MotionComponent: any = href ? MotionLink : motion.div;
 
     return (
         <MotionComponent

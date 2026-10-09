@@ -107,7 +107,7 @@ const Experience = () => {
                           </div>
                         )}
                     </div>
-                    <div className="prose dark:prose-invert max-w-none border border-border bg-card p-5 prose-strong:text-primary prose-img:grayscale prose-headings:scroll-mt-8 prose-headings:font-semibold prose-a:no-underline prose-headings:tracking-tight prose-headings:text-balance prose-p:tracking-tight prose-p:text-balance">
+                    <div className="prose dark:prose-invert max-w-none border border-border bg-card p-5 prose-strong:text-primary [&_img]:grayscale prose-headings:scroll-mt-8 prose-headings:font-semibold prose-a:no-underline prose-headings:tracking-tight prose-headings:text-balance prose-p:tracking-tight prose-p:text-balance">
                       <MDX />
                     </div>
                   </div>

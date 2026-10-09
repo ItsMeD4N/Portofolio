@@ -2,6 +2,7 @@ import { skills } from "@/data/overview";
 import { Marquee } from "../ui/marquee";
 import { TiltCard } from "../ui/tilt-card";
 import { Prompt, TerminalWindow } from "../ui/terminal";
+import GithubActivity from "./github-activity";
 
 const stats = [
   { value: "5", label: "years_experience" },
@@ -81,6 +82,8 @@ const Overview = () => {
           ))}
         </Marquee>
       </div>
+
+      <GithubActivity />
     </div>
   );
 };
